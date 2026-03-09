@@ -111,68 +111,46 @@ This creates the staging views in `development.dev_cf_ebi_semantic_poc`:
 ```bash
 # ── Simple metrics ──────────────────────────────────────────────
 # Total net revenue by month
-dbt sl query --metrics total_net_revenue \
-  --group-by metric_time__month \
-  --order-by metric_time__month
+dbt sl query --metrics total_net_revenue --group-by metric_time__month --order-by metric_time__month
 
 # Total net revenue by region
-dbt sl query --metrics total_net_revenue \
-  --group-by store__region_name \
-  --order-by store__region_name
+dbt sl query --metrics total_net_revenue --group-by store__region_name --order-by store__region_name
 
 # Transaction count and unique customers by product category
-dbt sl query --metrics transaction_count,unique_customers \
-  --group-by product__category_name \
-  --order-by product__category_name
+dbt sl query --metrics transaction_count,unique_customers --group-by product__category_name --order-by product__category_name
 
 # Return transactions
-dbt sl query --metrics return_transactions \
-  --group-by metric_time__month
+dbt sl query --metrics return_transactions --group-by metric_time__month
 
 # ── Derived metrics ─────────────────────────────────────────────
 # Gross margin and gross margin % by region
-dbt sl query --metrics gross_margin,gross_margin_pct \
-  --group-by store__region_name
+dbt sl query --metrics gross_margin,gross_margin_pct --group-by store__region_name
 
 # Average order value by store format
-dbt sl query --metrics avg_order_value \
-  --group-by store__store_format
+dbt sl query --metrics avg_order_value --group-by store__store_format
 
 # Discount rate by product division
-dbt sl query --metrics discount_rate \
-  --group-by product__division_name
+dbt sl query --metrics discount_rate --group-by product__division_name
 
 # Return rate by month
-dbt sl query --metrics return_rate \
-  --group-by metric_time__month \
-  --order-by metric_time__month
+dbt sl query --metrics return_rate --group-by metric_time__month --order-by metric_time__month
 
 # ── Cumulative / Window metrics ─────────────────────────────────
 # Trailing 7-day revenue by day
-dbt sl query --metrics trailing_7d_revenue \
-  --group-by metric_time__day \
-  --order-by metric_time__day
+dbt sl query --metrics trailing_7d_revenue --group-by metric_time__day --order-by metric_time__day
 
 # YTD revenue by month
-dbt sl query --metrics ytd_revenue \
-  --group-by metric_time__month \
-  --order-by metric_time__month
+dbt sl query --metrics ytd_revenue --group-by metric_time__month --order-by metric_time__month
 
 # Cumulative (all-time) revenue by day
-dbt sl query --metrics cumulative_revenue \
-  --group-by metric_time__day \
-  --order-by metric_time__day
+dbt sl query --metrics cumulative_revenue --group-by metric_time__day --order-by metric_time__day
 
 # Day-over-day growth
-dbt sl query --metrics day_over_day_revenue_growth \
-  --group-by metric_time__day \
-  --order-by metric_time__day
+dbt sl query --metrics day_over_day_revenue_growth --group-by metric_time__day --order-by metric_time__day
 
 # ── Multi-metric + filter ──────────────────────────────────────
 # Revenue and margin for a specific country
-dbt sl query --metrics total_net_revenue,gross_margin_pct \
-  --group-by store__country_name,metric_time__quarter \
-  --where "{{ Dimension('store__country_name') }} = 'United States'"
+dbt sl query --metrics total_net_revenue,gross_margin_pct --group-by store__country_name,metric_time__quarter --where "{{ Dimension('store__country_name') }} = 'United States'"
 ```
 
 ### Option B: SQL in Databricks (after dbt exports)
