@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_dim_store
+    description: "Staging view for store dimension"
+
+semantic_models:
+  - name: dim_store
+    description: "Store dimension — location, format, region attributes"
+    model: ref('stg_dim_store')
+
+    entities:
+      - name: store
+        type: primary
+        expr: store_sk
+
+    dimensions:
+      - name: store_name
+        type: categorical
+        label: "Store Name"
+        expr: store_name
+
+      - name: store_format
+        type: categorical
+        label: "Store Format"
+        expr: store_format
+
+      - name: region_name
+        type: categorical
+        label: "Region"
+        expr: region_name
+
+      - name: country_name
+        type: categorical
+        label: "Country"
+        expr: country_name
+
+      - name: state_province_name
+        type: categorical
+        label: "State/Province"
+        expr: state_province_name
+
+      - name: city
+        type: categorical
+        label: "City"
+        expr: city
+
+      - name: channel_type
+        type: categorical
+        label: "Channel Type"
+        expr: channel_type
+
+      - name: is_digital
+        type: categorical
+        label: "Is Digital"
+        expr: cast(is_digital as varchar)
+
+      - name: is_active
+        type: categorical
+        label: "Is Active"
+        expr: cast(is_active as varchar)

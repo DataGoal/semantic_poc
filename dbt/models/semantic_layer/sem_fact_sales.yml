@@ -1,0 +1,110 @@
+version: 2
+
+models:
+  - name: stg_fact_sales
+    description: "Staging view for sales transactions with derived date and tier columns"
+
+semantic_models:
+  - name: sales_transactions
+    description: >
+      Core retail sales semantic model built on fact_sales_transactions.
+      Star-schema joins to store and product dimensions via entities.
+    model: ref('stg_fact_sales')
+    defaults:
+      agg_time_dimension: transaction_date
+
+    entities:
+      - name: transaction
+        type: primary
+        expr: transaction_sk
+      - name: store
+        type: foreign
+        expr: store_sk
+      - name: product
+        type: foreign
+        expr: product_sk
+      - name: customer
+        type: foreign
+        expr: customer_sk
+
+    dimensions:
+      - name: transaction_date
+        type: time
+        label: "Transaction Date"
+        description: "Date of the sales transaction"
+        expr: transaction_date
+        type_params:
+          time_granularity: day
+
+      - name: revenue_tier
+        type: categorical
+        label: "Revenue Tier"
+        description: "High / Mid / Low value classification per transaction line"
+        expr: revenue_tier
+
+      - name: return_flag
+        type: categorical
+        label: "Return Flag"
+        description: "Y/N flag for return transactions"
+        expr: return_flag
+
+      - name: currency_code
+        type: categorical
+        label: "Currency Code"
+        expr: currency_code
+
+    measures:
+      - name: total_net_revenue
+        agg: sum
+        expr: net_revenue_usd
+        description: "Total net revenue in USD"
+        label: "Total Net Revenue"
+        create_metric: true
+
+      - name: total_gross_revenue
+        agg: sum
+        expr: gross_revenue
+        description: "Total gross revenue before discounts"
+        label: "Total Gross Revenue"
+        create_metric: true
+
+      - name: total_cogs
+        agg: sum
+        expr: cost_of_goods_sold
+        description: "Total cost of goods sold"
+        label: "Total COGS"
+        create_metric: true
+
+      - name: total_discount
+        agg: sum
+        expr: discount_amount
+        description: "Total discount amount given"
+        label: "Total Discount"
+        create_metric: true
+
+      - name: total_quantity
+        agg: sum
+        expr: quantity_sold
+        description: "Total units sold"
+        label: "Total Units Sold"
+        create_metric: true
+
+      - name: transaction_count
+        agg: count_distinct
+        expr: transaction_id
+        description: "Distinct transaction count"
+        label: "Transaction Count"
+        create_metric: true
+
+      - name: unique_customers
+        agg: count_distinct
+        expr: customer_sk
+        description: "Distinct customer count"
+        label: "Unique Customers"
+        create_metric: true
+
+      - name: return_transaction_count
+        agg: count_distinct
+        expr: transaction_id
+        description: "Count of return transactions (filtered at metric level)"
+        label: "Return Transaction Count"

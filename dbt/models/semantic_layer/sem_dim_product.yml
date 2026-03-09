@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_dim_product
+    description: "Staging view for product dimension"
+
+semantic_models:
+  - name: dim_product
+    description: "Product dimension — division, category, product attributes"
+    model: ref('stg_dim_product')
+
+    entities:
+      - name: product
+        type: primary
+        expr: product_sk
+
+    dimensions:
+      - name: division_name
+        type: categorical
+        label: "Division"
+        description: "Business division"
+        expr: division_name
+
+      - name: category_name
+        type: categorical
+        label: "Product Category"
+        expr: category_name
+
+      - name: subcategory_name
+        type: categorical
+        label: "Subcategory"
+        expr: subcategory_name
+
+      - name: product_name
+        type: categorical
+        label: "Product Name"
+        expr: product_name
+
+      - name: product_line_name
+        type: categorical
+        label: "Product Line"
+        expr: product_line_name
+
+      - name: gender_target
+        type: categorical
+        label: "Gender Target"
+        expr: gender_target
+
+      - name: age_group
+        type: categorical
+        label: "Age Group"
+        expr: age_group
+
+      - name: sport_occasion
+        type: categorical
+        label: "Sport/Occasion"
+        expr: sport_occasion
+
+      - name: is_hero_product
+        type: categorical
+        label: "Is Hero Product"
+        expr: cast(is_hero_product as varchar)

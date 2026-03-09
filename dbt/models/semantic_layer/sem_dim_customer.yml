@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_dim_customer
+    description: "Staging view for customer dimension"
+
+semantic_models:
+  - name: dim_customer
+    description: "Customer dimension — demographics, loyalty, segmentation"
+    model: ref('stg_dim_customer')
+
+    entities:
+      - name: customer
+        type: primary
+        expr: customer_sk
+
+    dimensions:
+      - name: gender_code
+        type: categorical
+        label: "Gender"
+        expr: gender_code
+
+      - name: loyalty_tier
+        type: categorical
+        label: "Loyalty Tier"
+        expr: loyalty_tier
+
+      - name: loyalty_member_flag
+        type: categorical
+        label: "Loyalty Member"
+        expr: cast(loyalty_member_flag as varchar)
+
+      - name: customer_segment
+        type: categorical
+        label: "Customer Segment"
+        expr: customer_segment
+
+      - name: preferred_sport
+        type: categorical
+        label: "Preferred Sport"
+        expr: preferred_sport
+
+      - name: lifetime_value_band
+        type: categorical
+        label: "Lifetime Value Band"
+        expr: lifetime_value_band
+
+      - name: acquisition_channel
+        type: categorical
+        label: "Acquisition Channel"
+        expr: acquisition_channel
+
+      - name: country_code
+        type: categorical
+        label: "Country Code"
+        expr: country_code
