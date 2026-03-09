@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: metricflow_time_spine
-    description: "MetricFlow time spine — required for cumulative and window metrics"
-    time_spine:
-      standard_granularity_column:
-        column_name: date_day
-        grain: day

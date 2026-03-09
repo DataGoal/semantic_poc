@@ -20,6 +20,6 @@ models:
     staging:
       +materialized: view
       +schema: dev_cf_ebi_semantic_poc
-    marts:
+    semantic:
       +materialized: view
       +schema: dev_cf_ebi_semantic_poc

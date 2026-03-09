@@ -5,5 +5,6 @@
   )
 }}
 
-select *
-from {{ source('semantic_poc', 'sem_poc_dim_customer') }}
+select
+  date_day
+from {{ source('semantic_poc', 'metricflow_time_spine') }}

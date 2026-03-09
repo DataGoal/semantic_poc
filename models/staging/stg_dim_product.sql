@@ -1,1 +1,44 @@
-select * from {{ source('semantic_poc', 'sem_poc_dim_product') }}
+{{
+  config(
+    materialized='view',
+    schema='dev_cf_ebi_semantic_poc'
+  )
+}}
+
+select
+  product_sk,
+  product_nk,
+  upc_code,
+  division_code,
+  division_name,
+  category_code,
+  category_name,
+  subcategory_code,
+  subcategory_name,
+  product_line_code,
+  product_line_name,
+  product_name,
+  product_description,
+  style_code,
+  colorway,
+  size,
+  gender_target,
+  age_group,
+  material_composition,
+  technology_features,
+  sport_occasion,
+  is_hero_product,
+  is_exclusive,
+  is_collaboration,
+  collab_partner,
+  standard_cost,
+  standard_retail_price,
+  launch_date_sk,
+  discontinue_date_sk,
+  is_active,
+  effective_date,
+  expiry_date,
+  is_current_flag,
+  created_timestamp,
+  updated_timestamp
+from {{ source('semantic_poc', 'sem_poc_dim_product') }}
