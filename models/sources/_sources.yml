@@ -1,0 +1,34 @@
+version: 2
+
+sources:
+  - name: semantic_poc
+    description: Nike Semantic POC source tables in Databricks
+    database: development
+    schema: dev_cf_ebi_semantic_poc
+    tables:
+      - name: sem_poc_fact_sales_transactions
+        description: Fact table for retail sales transactions
+      - name: sem_poc_dim_store
+        description: Store dimension
+      - name: sem_poc_dim_product
+        description: Product dimension
+      - name: sem_poc_dim_customer
+        description: Customer dimension
+      - name: sem_poc_dim_channel
+        description: Channel dimension
+      - name: sem_poc_dim_date
+        description: Date dimension
+      - name: sem_poc_dim_employee
+        description: Employee dimension
+      - name: sem_poc_dim_geography
+        description: Geography dimension
+      - name: sem_poc_dim_promotion
+        description: Promotion dimension
+      - name: sem_poc_fact_inventory_snapshot
+        description: Inventory snapshot fact
+      - name: sem_poc_fact_returns
+        description: Returns fact
+      - name: sem_poc_fact_web_sessions
+        description: Web sessions fact
+      - name: metricflow_time_spine
+        description: Pre-existing MetricFlow time spine table with date_day column

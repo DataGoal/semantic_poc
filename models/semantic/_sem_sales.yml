@@ -1,0 +1,97 @@
+version: 2
+
+semantic_models:
+
+  - name: sales_transactions
+    description: >
+      Core retail sales semantic model. One row per transaction line item.
+      Replicates the Databricks metric view over fact_sales_transactions.
+    model: ref('stg_fact_sales')
+    defaults:
+      agg_time_dimension: transaction_date
+
+    entities:
+      - name: transaction
+        type: primary
+        expr: transaction_sk
+      - name: store
+        type: foreign
+        expr: store_sk
+      - name: product
+        type: foreign
+        expr: product_sk
+      - name: customer
+        type: foreign
+        expr: customer_sk
+
+    dimensions:
+      # --- Time dimensions ---
+      - name: transaction_date
+        type: time
+        label: Transaction Date
+        description: Date of the sales transaction
+        expr: transaction_date
+        type_params:
+          time_granularity: day
+
+      # --- Categorical dimensions (fact-level) ---
+      - name: revenue_tier
+        type: categorical
+        label: Revenue Tier
+        description: >
+          Revenue tier classification per transaction line:
+          High-Value (>500), Mid-Value (>100), Low-Value (<=100)
+        expr: revenue_tier
+
+      - name: return_flag
+        type: categorical
+        label: Return Flag
+        description: Whether this transaction was a return (Y/N)
+
+      - name: currency_code
+        type: categorical
+        label: Currency Code
+
+    measures:
+      # ---------- Atomic aggregations ----------
+      - name: net_revenue_usd_sum
+        agg: sum
+        expr: net_revenue_usd
+        description: Sum of net revenue in USD
+        create_metric: false
+
+      - name: gross_revenue_sum
+        agg: sum
+        expr: gross_revenue
+        description: Sum of gross revenue before discounts
+        create_metric: false
+
+      - name: cogs_sum
+        agg: sum
+        expr: cost_of_goods_sold
+        description: Sum of cost of goods sold
+        create_metric: false
+
+      - name: discount_sum
+        agg: sum
+        expr: discount_amount
+        description: Sum of discount amounts
+        create_metric: false
+
+      - name: quantity_sum
+        agg: sum
+        expr: quantity_sold
+        description: Sum of units sold
+        create_metric: false
+
+      - name: txn_count
+        agg: count_distinct
+        expr: transaction_id
+        description: Distinct count of transactions
+        create_metric: false
+
+      - name: customer_count
+        agg: count_distinct
+        expr: customer_sk
+        description: Distinct count of customers
+        create_metric: false

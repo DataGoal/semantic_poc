@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_fact_sales
+    description: >
+      Staging view over the fact_sales_transactions source table.
+      Adds derived transaction_date, transaction_year, and revenue_tier columns.
+
+  - name: stg_dim_store
+    description: Staging view over the dim_store source table.
+
+  - name: stg_dim_product
+    description: Staging view over the dim_product source table.
+
+  - name: stg_dim_customer
+    description: Staging view over the dim_customer source table.
+
+  - name: mf_time_spine_day
+    description: >
+      MetricFlow time spine at day grain, backed by the existing
+      metricflow_time_spine table in dev_cf_ebi_semantic_poc.
+    time_spine:
+      standard_granularity_column: date_day
