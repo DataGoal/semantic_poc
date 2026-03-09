@@ -189,5 +189,5 @@ metrics:
         - name: total_net_revenue
           alias: current_rev
         - name: total_net_revenue
-          offset_window: 1
+          offset_window: 1 day
           alias: prev_rev

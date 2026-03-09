@@ -19,5 +19,9 @@ models:
     description: >
       MetricFlow time spine at day grain, backed by the existing
       metricflow_time_spine table in dev_cf_ebi_semantic_poc.
+    columns:
+      - name: date_day
+        description: Date at day grain
+        granularity: day  
     time_spine:
       standard_granularity_column: date_day
