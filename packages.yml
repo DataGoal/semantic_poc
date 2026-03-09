@@ -1,6 +1,0 @@
-# No external packages required for the semantic layer POC.
-# MetricFlow is built into dbt Cloud / dbt-core 1.6+.
-# Add packages here if needed in the future:
-# packages:
-#   - package: dbt-labs/dbt_utils
-#     version: [">=1.0.0", "<2.0.0"]
