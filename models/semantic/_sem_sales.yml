@@ -5,7 +5,6 @@ semantic_models:
   - name: sales_transactions
     description: >
       Core retail sales semantic model. One row per transaction line item.
-      Replicates the Databricks metric view over fact_sales_transactions.
     model: ref('stg_fact_sales')
     defaults:
       agg_time_dimension: transaction_date

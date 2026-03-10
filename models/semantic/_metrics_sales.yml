@@ -3,7 +3,7 @@ version: 2
 metrics:
 
   # ============================================================================
-  #  SIMPLE METRICS  (equivalent to Databricks atomic measures)
+  #  SIMPLE METRICS  (atomic measures)
   # ============================================================================
 
   - name: total_net_revenue
@@ -55,7 +55,7 @@ metrics:
     type_params:
       measure: customer_count
 
-  # --- Simple metric with filter (Databricks FILTER WHERE equivalent) ---
+  # --- Simple metric with filter (WHERE equivalent) ---
   - name: return_transactions
     label: Return Transactions
     description: Transactions that were returns (return_flag = Y)
@@ -172,9 +172,8 @@ metrics:
 
 
   # ============================================================================
-  #  PERIOD-OVER-PERIOD  (Databricks current/previous day + DoD growth)
+  #  PERIOD-OVER-PERIOD  (current/previous day + DoD growth)
   # ============================================================================
-  # dbt derived metrics with offset_window replicate Databricks window
   # current/trailing concepts for period-over-period comparisons.
 
   - name: day_over_day_revenue_growth

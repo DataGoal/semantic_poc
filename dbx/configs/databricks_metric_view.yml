@@ -1,5 +1,4 @@
 ###############################################################################
-# Databricks Metric View — Retail Sales
 # Covers: Joins, Window Measures, Semantic Metadata, Composability
 # Spec version 1.1 (required for semantic metadata features)
 ###############################################################################
