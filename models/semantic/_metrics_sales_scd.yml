@@ -1,0 +1,58 @@
+version: 2
+
+metrics:
+
+  # ============================================================================
+  #  SCD-AWARE METRICS — product attributes resolved to sale-time version
+  # ============================================================================
+
+  - name: scd_total_net_revenue
+    label: "Total Net Revenue (SCD)"
+    description: >
+      Net revenue with product dimensions resolved via SCD Type 2.
+      Grouping by product_name_at_sale returns the name that was
+      effective at the time of each transaction, not the current name.
+    type: simple
+    type_params:
+      measure: scd_net_revenue_sum
+
+  - name: scd_transaction_count
+    label: "Transaction Count (SCD)"
+    description: Distinct transactions using SCD-resolved product context
+    type: simple
+    type_params:
+      measure: scd_txn_count
+
+  - name: scd_total_quantity
+    label: "Total Units Sold (SCD)"
+    description: Total units sold with SCD-resolved product attributes
+    type: simple
+    type_params:
+      measure: scd_quantity_sum
+
+  - name: scd_avg_order_value
+    label: "Avg Order Value (SCD)"
+    description: Average order value using SCD-resolved model
+    type: derived
+    type_params:
+      expr: "scd_total_net_revenue / nullif(scd_transaction_count, 0)"
+      metrics:
+        - name: scd_total_net_revenue
+        - name: scd_transaction_count
+
+  - name: scd_gross_margin
+    label: "Gross Margin (SCD)"
+    description: Gross margin with SCD-resolved product cost data
+    type: derived
+    type_params:
+      expr: scd_total_net_revenue - scd_total_cogs
+      metrics:
+        - name: scd_total_net_revenue
+        - name: scd_total_cogs
+
+  - name: scd_total_cogs
+    label: "Total COGS (SCD)"
+    description: Total COGS using SCD-resolved product context
+    type: simple
+    type_params:
+      measure: scd_cogs_sum

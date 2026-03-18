@@ -1,0 +1,96 @@
+version: 2
+
+semantic_models:
+
+  - name: sales_transactions_scd
+    description: >
+      SCD-aware sales semantic model. Product attributes are resolved
+      to the version that was effective at the time of each transaction.
+      This demonstrates handling SCD Type 2 joins in the model layer
+      since MetricFlow does not natively support time-versioned joins.
+    model: ref('stg_fact_sales_scd')
+    defaults:
+      agg_time_dimension: transaction_date
+
+    entities:
+      - name: transaction_scd
+        type: primary
+        expr: transaction_sk
+      - name: store
+        type: foreign
+        expr: store_sk
+      - name: customer
+        type: foreign
+        expr: customer_sk
+
+    dimensions:
+      - name: transaction_date
+        type: time
+        label: Transaction Date
+        expr: transaction_date
+        type_params:
+          time_granularity: day
+
+      - name: revenue_tier
+        type: categorical
+        label: Revenue Tier
+
+      - name: return_flag
+        type: categorical
+        label: Return Flag
+
+      # Product attributes as-of sale date (SCD-resolved)
+      - name: product_name_at_sale
+        type: categorical
+        label: Product Name (at sale)
+        description: Product name as it was when the transaction occurred
+
+      - name: division_name_at_sale
+        type: categorical
+        label: Division (at sale)
+        description: Division name from the product version effective at sale time
+
+      - name: category_name_at_sale
+        type: categorical
+        label: Category (at sale)
+        description: Category from the product version effective at sale time
+
+      - name: subcategory_name_at_sale
+        type: categorical
+        label: Subcategory (at sale)
+
+      - name: gender_target_at_sale
+        type: categorical
+        label: Gender Target (at sale)
+
+      - name: sport_occasion_at_sale
+        type: categorical
+        label: Sport/Occasion (at sale)
+
+      - name: product_is_current
+        type: categorical
+        label: Product Is Current Version
+        description: Whether the matched product version is still the current one
+
+    measures:
+      - name: scd_net_revenue_sum
+        agg: sum
+        expr: net_revenue_usd
+        description: Net revenue (USD) with SCD-resolved product attributes
+        create_metric: false
+
+      - name: scd_txn_count
+        agg: count_distinct
+        expr: transaction_id
+        description: Distinct transactions with SCD-resolved product context
+        create_metric: false
+
+      - name: scd_quantity_sum
+        agg: sum
+        expr: quantity_sold
+        create_metric: false
+
+      - name: scd_cogs_sum
+        agg: sum
+        expr: cost_of_goods_sold
+        create_metric: false
